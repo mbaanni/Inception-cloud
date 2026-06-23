@@ -1,9 +1,7 @@
 server {
     listen 80;
+    
     listen 443 ssl;
-    if ($scheme = http) {
-           return 301 https://$host$request_uri;
-        }
 
     ssl_certificate /etc/ssl/private/server.crt;
     ssl_certificate_key /etc/ssl/private/server.key;
@@ -16,6 +14,19 @@ server {
 
     location / {
         try_files $uri $uri/ /index.php?$args;
+    }
+
+    location /phpmyadmin {
+        alias /var/www/html/phpmyadmin/;
+        index index.php;
+
+        location ~ ^/phpmyadmin/(.+\.php)$ {
+            alias /var/www/html/phpmyadmin/$1;
+
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME /var/www/html/phpmyadmin/$1;
+            fastcgi_pass phpmyadmin:9000;
+        }
     }
 
     location ~ \.php$ {

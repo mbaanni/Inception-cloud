@@ -11,6 +11,7 @@ services:
 #        condition: service_started
     volumes:
       - wordpress:/var/www/html
+      - phpmyadmin:/var/www/html/phpmyadmin
     ports:
       - 443:443
       - 80:80
@@ -45,29 +46,34 @@ services:
     env_file:
       - .env
     restart: always
-  # my-php-admin:
-  #   image: phpmyadmin:fpm-alpine
-  #   container_name: phpmyadmin
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - testo
-  #   environment:
-  #     PMA_HOST: mariadb
-  #     PMA_PORT: 3306
+  my-php-admin:
+    image: phpmyadmin:fpm-alpine
+    container_name: phpmyadmin
+    depends_on:
+      - mariadb
+    networks:
+      - testo
+    volumes:
+      - phpmyadmin:/var/www/html
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
 
 volumes:
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/mbaanni/data/wordpress
+      device: ${HOME}/data/wordpress
       o: bind
+    
+  phpmyadmin:
+
   mariadb:
     driver: local
     driver_opts:
       type: none
-      device: /home/mbaanni/data/mariadb
+      device: ${HOME}/data/mariadb
       o: bind
 
 networks:

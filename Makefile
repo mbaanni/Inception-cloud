@@ -18,7 +18,7 @@ clean:
 fclean:
 	@docker compose -f srcs/docker-compose.yml down -v
 	@docker system prune -af
-	@rm -rf /Users/mbaanni/data/wordpress
-	@rm -rf /Users/mbaanni/data/mariadb
+	@rm -rf /Users/mbaanni/data/
+
 
 re: stop start
