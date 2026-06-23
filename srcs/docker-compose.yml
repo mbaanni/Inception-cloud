@@ -6,14 +6,14 @@ services:
     build: requirements/nginx
     container_name: nginx
     depends_on:
-      wordpress:
-        condition: service_healthy
+      - wordpress
 #      adminer:
 #        condition: service_started
     volumes:
-      - wordpress:/var/www/http
+      - wordpress:/var/www/html
     ports:
       - 443:443
+      - 80:80
     networks:
       - testo
     env_file:
@@ -27,7 +27,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - wordpress:/var/www/http
+      - wordpress:/var/www/html
     networks:
       - testo
     env_file:
@@ -45,20 +45,29 @@ services:
     env_file:
       - .env
     restart: always
-
+  # my-php-admin:
+  #   image: phpmyadmin:fpm-alpine
+  #   container_name: phpmyadmin
+  #   depends_on:
+  #     - mariadb
+  #   networks:
+  #     - testo
+  #   environment:
+  #     PMA_HOST: mariadb
+  #     PMA_PORT: 3306
 
 volumes:
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/ubuntu/data/wordpress
+      device: /home/mbaanni/data/wordpress
       o: bind
   mariadb:
     driver: local
     driver_opts:
       type: none
-      device: /home/ubuntu/data/mariadb
+      device: /home/mbaanni/data/mariadb
       o: bind
 
 networks:

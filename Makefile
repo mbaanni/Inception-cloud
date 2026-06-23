@@ -2,7 +2,7 @@
 all: build
 
 build:
-	@mkdir -p /home/ubuntu/data/wordpress /home/ubuntu/data/mariadb
+	@mkdir -p /Users/mbaanni/data/wordpress /Users/mbaanni/data/mariadb
 	@docker compose -f srcs/docker-compose.yml up --build -d
 
 start:
@@ -13,11 +13,12 @@ stop:
 
 clean:
 	@docker compose -f srcs/docker-compose.yml down -v
-	@rm -rf /home/ubuntu/data/
+	@rm -rf /Users/mbaanni/data/
 
 fclean:
 	@docker compose -f srcs/docker-compose.yml down -v
 	@docker system prune -af
-	@rm -rf /home/ubuntu/data/
+	@rm -rf /Users/mbaanni/data/wordpress
+	@rm -rf /Users/mbaanni/data/mariadb
 
 re: stop start

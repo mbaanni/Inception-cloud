@@ -14,3 +14,5 @@ RUN         mkdir -p /run/nginx/
 
 COPY        --from=TLS /etc/ssl/private/ /etc/ssl/private/
 COPY        conf/default /etc/nginx/conf.d/default.conf
+
+CMD ["nginx", "-g", "daemon off;"]
