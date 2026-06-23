@@ -7,11 +7,8 @@ services:
     container_name: nginx
     depends_on:
       - wordpress
-#      adminer:
-#        condition: service_started
     volumes:
       - wordpress:/var/www/html
-      - phpmyadmin:/var/www/html/phpmyadmin
     ports:
       - 443:443
       - 80:80
@@ -47,14 +44,12 @@ services:
       - .env
     restart: always
   my-php-admin:
-    image: phpmyadmin:fpm-alpine
+    image: phpmyadmin:apache
     container_name: phpmyadmin
     depends_on:
       - mariadb
     networks:
       - testo
-    volumes:
-      - phpmyadmin:/var/www/html
     environment:
       PMA_HOST: mariadb
       PMA_PORT: 3306
@@ -66,8 +61,6 @@ volumes:
       type: none
       device: ${HOME}/data/wordpress
       o: bind
-    
-  phpmyadmin:
 
   mariadb:
     driver: local
