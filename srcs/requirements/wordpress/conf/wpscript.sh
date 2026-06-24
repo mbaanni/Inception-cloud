@@ -1,7 +1,5 @@
 #!/bin/sh
 
-cd /var/www/html
-
 while ! mariadb -hmariadb -u$DATABASE_USER -p$DATABASE_PASS $DATABASE_NAME --silent 2> /dev/null; do
 	sleep 1;
 done
