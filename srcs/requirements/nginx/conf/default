@@ -6,10 +6,8 @@ server {
     ssl_certificate_key /etc/ssl/private/server.key;
     ssl_protocols TLSv1.2 TLSv1.3;
 
-    server_name localhost;
-    if ($scheme = http) {
-            return 301 https://$host$request_uri;
-    }
+    server_name _;
+
     root /var/www/html;
     index index.php index.html;
 
